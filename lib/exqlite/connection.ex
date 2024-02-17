@@ -159,8 +159,8 @@ defmodule Exqlite.Connection do
             "./priv/sqlite/\#{arch_dir}/vss0"
           ]
       ```
-    * `:before_disconnect` - A function to run before disconnect, either a 
-      2-arity fun or `{module, function, args}` with the close reason and 
+    * `:before_disconnect` - A function to run before disconnect, either a
+      2-arity fun or `{module, function, args}` with the close reason and
       `t:Exqlite.Connection.t/0` prepended to `args` or `nil` (default: `nil`)
 
   For more information about the options above, see [sqlite documentation][1]
