@@ -226,8 +226,6 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return make_error_tuple(env, "database_open_failed");
     }
 
-    sqlite3_free(filename);
-
     mutex = enif_mutex_create("exqlite:connection");
     if (mutex == NULL) {
         sqlite3_close_v2(db);
