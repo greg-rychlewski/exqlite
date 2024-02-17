@@ -217,8 +217,8 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     memcpy(filename, filename_binary.data, filename_binary.size);
     filename[filename_binary.size] = '\0';
 
-    if (!enif_get_int(env, argv[1], &flags)) {
-        return make_error_tuple(env, "invalid_flags");
+    if (enif_get_int(env, argv[1], &flags)) {
+        return make_error_tuple(env, filename);
     }
 
     rc = sqlite3_open_v2(filename, &db, flags, NULL);
