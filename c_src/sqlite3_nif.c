@@ -238,6 +238,7 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if (!conn) {
         sqlite3_close_v2(db);
         enif_mutex_destroy(mutex);
+        sqlite3_free(filename);
         return make_error_tuple(env, "out_of_memory");
     }
     conn->db    = db;
