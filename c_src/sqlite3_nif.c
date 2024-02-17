@@ -218,13 +218,11 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     filename[filename_binary.size] = '\0';
 
     if (!enif_get_int(env, argv[1], &flags)) {
-        sqlite3_free(filename);
         return make_error_tuple(env, "invalid_flags");
     }
 
     rc = sqlite3_open_v2(filename, &db, flags, NULL);
     if (rc != SQLITE_OK) {
-        sqlite3_free(filename);
         return make_error_tuple(env, "database_open_failed");
     }
 
