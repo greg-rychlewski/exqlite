@@ -245,6 +245,7 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     result = enif_make_resource(env, conn);
     enif_release_resource(conn);
+    sqlite3_free(filename)
 
     return make_ok_tuple(env, result);
 }
