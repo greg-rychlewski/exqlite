@@ -209,7 +209,7 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
         return make_error_tuple(env, "invalid_filename");
     }
 
-    filename = sqlite3_malloc(filename_binary.size + 1);
+    filename = enif_alloc(filename_binary.size + 1);
     if (!filename) {
         return make_error_tuple(env, "out_of_memory");
     }
@@ -223,8 +223,11 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
 
     rc = sqlite3_open_v2(filename, &db, flags, NULL);
     if (rc != SQLITE_OK) {
+        enif_free(filename);
         return make_error_tuple(env, "database_open_failed");
     }
+
+    enif_free(filename);
 
     mutex = enif_mutex_create("exqlite:connection");
     if (mutex == NULL) {
@@ -238,7 +241,6 @@ exqlite_open(ErlNifEnv* env, int argc, const ERL_NIF_TERM argv[])
     if (!conn) {
         sqlite3_close_v2(db);
         enif_mutex_destroy(mutex);
-        sqlite3_free(filename);
         return make_error_tuple(env, "out_of_memory");
     }
     conn->db    = db;
